@@ -1,0 +1,117 @@
+{% extends "base2.html" %}
+<!DOCTYPE HTML>
+<!--
+   Telephasic by HTML5 UP
+   html5up.net | @ajlkn
+   Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+   <head>
+        <title>"매니저 페이지"</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+
+        <!-- MDB -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" rel="stylesheet">
+
+        <!-- Custom CSS (Assuming this is your custom stylesheet) -->
+        <link rel="stylesheet" href="/static/css/main.css" />
+    </head>
+   <body class="homepage is-preload">
+      <div id="page-wrapper">
+
+         <!-- Header -->
+         {% block user %}
+         {% endblock user %}
+
+         {% block user2 %}
+            {% if user=="Login" %}
+            <a href="{{url_for('login')}}" data-mdb-modal-init data-mdb-target="#basicExampleModal">Login</a>
+            {% else %}
+            <!-- <p>user: {{user}}</p> -->
+            <a href="{{url_for('logout')}}" >Logout</a>
+            {% endif %}
+         {% endblock user2 %}
+
+
+            {% block contents %}
+            <!-- Features 1 -->
+            <div style="margin-left: 10%; margin-right: 10%; margin-top: 5%;">
+               <!--NoticeBoard-->
+               <div id="notice">
+                  <!-- <h5>프로젝트</h5> -->
+                  <div class="table-responsive-sm">
+                     <input type="button" class="btn btn-primary btn-lg" value="추가" onClick="redirectToAddList()">
+                     <p></p>
+                     <script>
+                         function redirectToAddList() {
+                             window.location.href = "/add_list";
+                         }
+                     </script>
+                      <table class="table table-hover">
+                          <thead>
+                              <tr>
+                                 <th>Movie Rank</th>
+                                 <th>Movie Title</th>
+                                 <th>Release Date</th>
+                                 <th>Egg Gage</th>
+                                 <th>Genre</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              {% for movie_info in movies_from_db %}
+                              <tr onclick='redirectToMovieDetail({{loop.index -1}})' style="cursor: pointer">
+                                    <td> {{ movie_info.movie_rank }}위</td>
+                                    <td>{{ movie_info.title }}</td>
+                                    <td> <b>{{ movie_info.info }}</b></td>
+                                    <td> <b>{{ movie_info.egg_gage }}</b></td>
+                                    <td> {{ movie_info.genre }}
+                                 </tr>
+                          {% endfor %}
+                          </tbody>
+                          <script>
+                           function redirectToMovieDetail(index) {
+                               window.location.href = "/manage_list/" + index;
+                           }
+                       </script>
+                      </table>
+                      <!-- <div class="text-center">${}</div> -->
+                  </div>
+                  <br> <br>
+              </div>
+
+            <!-- <div class="wrapper">
+               <div class="container">
+                  <div class="row">
+                     <section class="col-6 col-12-narrower feature">
+
+                     </section>
+                     <section class="col-6 col-12-narrower feature">
+
+                     </section>
+                  </div>
+               </div>
+            </div> -->
+            <!-- Features 2 and Footer sections, you can keep them as they are or modify as needed -->
+            <!-- ... Existing content for Features 2 ... -->
+            <!-- ... Existing content for Footer ... --><!-- 추가된 부분 -->
+         {% endblock contents %}
+
+
+
+        <!-- Scripts -->
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/jquery.dropotron.min.js"></script>
+        <script src="/static/js/browser.min.js"></script>
+        <script src="/static/js/breakpoints.min.js"></script>
+        <script src="/static/js/util.js"></script>
+        <script src="/static/js/main.js"></script>
+        <!-- MDB -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"></script>
+
+        <!-- $('#basicExampleModal').modal('show'); -->
+   </body>
+</html>

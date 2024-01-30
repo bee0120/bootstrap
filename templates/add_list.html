@@ -1,0 +1,117 @@
+{% extends "base2.html" %}
+
+{% block user %}
+    {% if user == "Login" %}
+        <a href="{{ url_for('login') }}">Login</a>
+    {% else %}
+        <p>user: {{ user }}</p>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    {% endif %}
+{% endblock user %}
+
+{% block message %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <p>{{ messages[0][1] }}</p>
+        {% endif %}
+    {% endwith %}
+{% endblock message %}
+<!-- Nav -->
+
+<!-- Nav -->
+<nav id="nav">
+    <ul>
+       <li>
+          <a href="#">정렬 방식</a>
+          <ul>
+             <li><a href="{{ url_for('index', num=1) }}">순위별</a></li>
+             <li><a href="{{ url_for('index', num=2) }}">평점별</a></li>
+             <li><a href="{{ url_for('index', num=3) }}">개봉일별</a></li>
+          </ul>
+       </li>
+       <li><a href="#"></a></li>
+
+       {% block admin %}
+       {% if user == "admin" %}
+          <li class="break"><a href="manager" id="btnSignin">
+          <i class="fas fa-sign-in-alt"></i>Manage</a></li>
+       {% else %}
+          <!-- Remove the <a> tag completely if user is not admin -->
+          <li class="break"></li>
+       {% endif %}
+    {% endblock admin %}
+
+       <li>
+        {% block user2 %}
+        {% if user=="Login" %}
+        <a href="{{url_for('login')}}" data-mdb-modal-init data-mdb-target="#basicExampleModal">Login</a>
+        {% else %}
+        <!-- <p>user: {{user}}</p> -->
+        <a href="{{url_for('logout')}}" >Logout</a>
+        {% endif %}
+        {% endblock user2 %}
+       </li>
+    </ul>
+</nav>
+
+
+
+{% block add %}
+<div class="container" style="margin-right: auto; margin-left: auto; background-color: transparent;">
+<div class="mx-auto" style="max-width: 400px;">
+    <form action="{{ url_for("add_list_done") }}" method="post" id="addForm" class="center">
+        <div class="form-group">
+            <label for="rank">영화 순위:</label>
+            <input type="text" name="rank" id="rank" class="form-control" style="max-width: 400px;">
+        </div>
+        <div class="form-group">
+            <label for="title">영화 이름:</label>
+            <input type="text" name="title" id="title" class="form-control" style="max-width: 400px;">
+        </div>
+        <div class="form-group">
+            <label for="info">개봉일:</label>
+            <input type="text" name="info" id="info" class="form-control" style="max-width: 400px;">
+        </div>
+        <div class="form-group">
+            <label for="egg_gage">실관람지수(평점):</label>
+            <input type="text" name="egg_gage" id="egg_gage" class="form-control" style="max-width: 400px;">
+        </div>
+        <div class="form-group">
+            <label for="genre">장르:</label>
+            <input type="text" name="genre" id="genre" class="form-control" style="max-width:400px;">
+        </div>
+        <div class="form-group">
+            <label for="img_url">이미지:</label>
+            <input type="text" name="img_url" id="img_url" class="form-control" style="max-width: 400px;">
+        </div>
+        <p></p>
+        <button type="submit" id="saveButton" class="btn btn-primary btn-lg">저장하기</button>
+    </form>
+</div>
+</div>
+
+
+    <script>
+        // 저장하기 버튼 클릭 이벤트 처리
+        document.getElementById('saveButton').addEventListener('click', function(event) {
+            // 필요한 로직 추가
+            // 예시: 입력 필드가 모두 비어있는지 확인하고 처리
+            var rankInput = document.getElementById('rank');
+            var titleInput = document.getElementById('title');
+            var infoInput = document.getElementById('info');
+            var eggGageInput = document.getElementById('egg_gage');
+            var genreInput = document.getElementById('genre');
+
+            if (rankInput.value.trim() === '' || titleInput.value.trim() === '' || infoInput.value.trim() === '' || eggGageInput.value.trim() === '' || genreInput.value.trim() === '') {
+                alert('모든 필드를 입력하세요.');
+                event.preventDefault(); // 폼 제출 방지
+            }
+        });
+    </script>
+
+{% endblock add %}
+<!--
+{% block contents2 %}
+
+{% endblock contents2 %} -->
+

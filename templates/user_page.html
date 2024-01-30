@@ -1,0 +1,90 @@
+{% extends "base2.html" %}
+
+{% block user %}
+    {% if user == "Login" %}
+        <a href="{{ url_for('login') }}">Login</a>
+    {% else %}
+        <p>user: {{ user }}</p>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    {% endif %}
+{% endblock user %}
+
+{% block message %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <p>{{ messages[0][1] }}</p>
+        {% endif %}
+    {% endwith %}
+{% endblock message %}
+
+{% block user2 %}
+    {% if user == "Login" %}
+        <a href="{{ url_for('login') }}" data-mdb-modal-init data-mdb-target="#basicExampleModal">Login</a>
+    {% else %}
+        <a href="{{ url_for('logout') }}">user: {{ user }}</a>
+    {% endif %}
+{% endblock user2 %}
+
+{% block contents %}
+    <div class="wrapper">
+        <div class="container">
+            <div class="row">
+                <section class="col-6 col-12-narrower feature">
+                    <header>
+                        <h2></h2>
+                    </header>
+                    {% for movie in movies_from_users %}
+                        {% if loop.index % 2 == 1 %}
+                            {# 홀수 번호인 경우 #}
+                            <div class='image-wrapper'><a href='{{ movie.link }}' target='_blank' class='image featured'><img src='{{ movie.img_url }}' alt='' /></a></div>
+                            <p>
+                                <h3>{{ movie.movie_rank }}위: {{ movie.title }}</h3>
+                                <b>개봉일: {{ movie.info }}</b><br>
+                                <b>실관람지수(평점): {{ movie.egg_gage }}</b><br>
+                                <b>장르 :{{ movie.genre }}</b>
+                            </p>
+                        {% endif %}
+                    {% endfor %}
+
+                    <ul class="actions">
+                        <!-- <li><a href="#" class="button">Elevate my awareness</a></li> -->
+                    </ul>
+                </section>
+
+                <section class="col-6 col-12-narrower feature">
+                    <header>
+                        <h2></h2>
+                    </header>
+                    {% for movie in movies_from_users %}
+                        {% if loop.index % 2 == 0 %}
+                            {# 짝수 번호인 경우 #}
+                            <div class='image-wrapper'><a href='{{ movie.link }}' target='_blank' class='image featured'><img src='{{ movie.img_url }}' alt='' /></a></div>
+                            <p>
+                                <h3>{{ movie.movie_rank }}위: {{ movie.title }}</h3>
+                                <b>개봉일: {{ movie.info }}</b><br>
+                                <b>실관람지수(평점): {{ movie.egg_gage }}</b><br>
+                                <b>장르 :{{ movie.genre }}</b>
+                            </p>
+                        {% endif %}
+                    {% endfor %}
+
+                    <ul class="actions">
+                        <!-- <li><a href="#" class="button">Elevate my awareness</a></li> -->
+                    </ul>
+                </section>
+                <!-- Add similar block for the second column -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Flask에서 서버에서 전달한 메시지를 전역 변수로 설정
+        var alertMessage = "{{ alert_message }}";
+
+        // alertMessage가 비어있지 않으면 alert 메시지를 띄우기
+        if (alertMessage) {
+            alert(alertMessage);
+        }
+    </script>
+
+{% endblock contents %}

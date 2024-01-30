@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block messages %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+{% if messages %}
+     <p>{{messages[0][1]}}</p>
+{% endif %}
+{% endwith %}
+{% endblock messages %}
+
+{% block contents %}
+
+{% endblock contents %}
+

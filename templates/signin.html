@@ -1,0 +1,49 @@
+{% extends "base2.html" %}
+
+{% block message %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+{% if messages %}
+    <p>{{messages[0][1]}}</p>
+{% endif %}
+{% endwith %}
+{% endblock message %}
+
+
+{% block contents %}
+<div class="container">
+    <div class="mx-auto" style="max-width: 400px;">
+<form action="{{url_for("signin_done")}}" method="get">
+    <p>userid:
+    <input type="text" name="id" id="id"></p>
+    <p>password:
+    <input type="password" name="pwd" id="pwd"/></p>
+    <p>name:
+    <input type="text" name="name" id="name"></p>
+    <p>movietype:
+    <input type="text" name="mtype" id="mtype"></p>
+    <p></p>
+    <button type="submit" id="signupButton">회원가입하기</button>
+</form>
+</div>
+</div>
+<script>
+    document.getElementById('signupButton').addEventListener('click', function (event) {
+        var idInput = document.getElementById('id');
+        var pwdInput = document.getElementById('pwd');
+        var nameInput = document.getElementById('name');
+        var mtypeInput = document.getElementById('mtype');
+
+        // 입력 필드가 모두 비어있으면 제출되지 않도록 함
+        if (idInput.value.trim() === '' || pwdInput.value.trim() === '' || nameInput.value.trim() === '' || mtypeInput.value.trim() === '') {
+            alert('모든 정보를 입력하세요.');
+            event.preventDefault(); // 이벤트 취소
+        }
+    });
+</script>
+{% endblock contents %}
+
+<!--
+{% block contents2 %}
+
+{% endblock contents2 %} -->

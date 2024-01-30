@@ -1,0 +1,269 @@
+
+<!DOCTYPE HTML>
+<!--
+   Telephasic by HTML5 UP
+   html5up.net | @ajlkn
+   Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+   <head>
+        <title>성공</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+
+        <!-- MDB -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" rel="stylesheet">
+
+        <!-- Custom CSS (Assuming this is your custom stylesheet) -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+      <style>
+      .col-12-narrower {
+          margin-bottom: 20px; /* 원하는 마진 크기로 조정 */
+       }
+       section.feature p {
+         font-family: 'Noto Sans KR', sans-serif; /* 원하는 글꼴로 변경 */
+         font-weight: bold; /* 굵게 설정 */
+         font-size: 16px; /* 원하는 크기로 설정 */
+     }
+      </style>
+
+    </head>
+   <body class="homepage is-preload">
+      <div id="page-wrapper">
+
+         <!-- Header -->
+            <div id="header-wrapper">
+               <div id="header" class="container">
+
+                  <!-- Logo -->
+                     <h1 id="logo"><a href="{{ url_for('index') }}">Main</a></h1>
+
+                  <!-- Nav -->
+                     <nav id="nav">
+                        <ul>
+
+                           <li>
+                              <a href="#">Select</a>
+                              <ul>
+                                 <li><a href="{{ url_for('index', num=1) }}">순위별</a></li>
+                                 <li><a href="{{ url_for('index', num=2) }}">평점별</a></li>
+                                 <li><a href="{{ url_for('index', num=3) }}">개봉일별</a></li>
+                              </ul>
+                           </li>
+                           <li><a href="#"></a></li>
+                           {% block admin %}
+                           {% if user == "admin" %}
+                              <li class="break"><a href="manager" id="btnSignin">
+                              <i class="fas fa-sign-in-alt"></i> Manage</a></li>
+                           {% else %}
+                              <li class="break"><a href="" id="btnSignin"></a></li>
+                           {% endif %}
+                           {% endblock admin %}
+                           <li>
+                              {% block user2 %}
+                              <!-- <a href="no-sidebar.html" data-mdb-modal-init data-mdb-target="#basicExampleModal">Login</a> -->
+                              {% endblock user2 %}
+
+                           </li>
+                        </ul>
+                     </nav>
+
+                            <!-- Modal -->
+                        <div class="modal top fade" id="basicExampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title" id="exampleModalLabel"><strong><i class="i.fas.fa-sign-in-alt"></i>Login</strong></h3>
+                                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                              {% block message %}
+
+                              {% endblock message %}
+
+                               {% block contents2 %}
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                              <form id="loginForm" action="{{ url_for('login_done') }}" method="get" onsubmit="return validateLoginForm()">
+                                 <p>userid:</p>
+                                 <input type="text" name="id" id="id" required>
+                                 <p>password:</p>
+                                 <input type="password" name="pwd" id="pwd" required>
+                                 <p></p>
+                                 <button type="submit" id="loginButton" class="btn btn-primary btn-lg" disabled>로그인</button>
+                                 <a href="signin" id="signupButton" class="btn btn-primary btn-lg">회원 가입</a>
+                              </form>
+
+                           </div>
+
+                              <script>
+                                 function validateLoginForm() {
+                                    var idInput = document.getElementById('id');
+                                    var pwdInput = document.getElementById('pwd');
+
+                                    // 입력 필드가 모두 비어있으면 제출되지 않도록 함
+                                    if (idInput.value.trim() === '' || pwdInput.value.trim() === '') {
+                                       alert('모든 필드를 입력하세요.');
+                                       return false;
+                                    }
+
+                                    return true;
+                                 }
+
+                                 // 입력 필드가 변경될 때마다 로그인 버튼 상태 업데이트
+                                 document.getElementById('id').addEventListener('input', updateLoginButtonState);
+                                 document.getElementById('pwd').addEventListener('input', updateLoginButtonState);
+
+                                 function updateLoginButtonState() {
+                                    var idInput = document.getElementById('id');
+                                    var pwdInput = document.getElementById('pwd');
+                                    var loginButton = document.getElementById('loginButton');
+
+                                    // 입력 필드가 모두 비어있지 않으면 버튼 활성화
+                                    if (idInput.value.trim() !== '' && pwdInput.value.trim() !== '') {
+                                       loginButton.removeAttribute('disabled');
+                                    } else {
+                                       loginButton.setAttribute('disabled', 'disabled');
+                                    }
+                                 }
+
+                              </script>
+                           {% endblock contents2 %}
+                            </div>
+                           <!--  <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                                Close
+                                </button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div> -->
+                            </div>
+                        </div>
+                        </div>
+
+               </div>
+
+               <!-- Hero -->
+                  <section id="hero" class="container">
+                     <header>
+                        <h2>영화 추천 프로그램</h2>
+                     </header>
+                     <!-- <ul class="actions">
+                        <li><a href="#" class="button">Get this party started</a></li>
+                     </ul> -->
+                  </section>
+
+            </div>
+            <!-- {% block user %}
+            {% endblock user %} -->
+            {% block contents3 %}
+            {% endblock contents3 %}
+            {% block contents %}
+         <!-- Features 1 -->
+         {% block add %}
+         {% endblock add %}
+            <div class="wrapper">
+               <div class="container">
+                  <div class="row">
+                     <section class="col-6 col-12-narrower feature">
+
+                        <header>
+                           <h2></h2>
+                        </header>
+                        <ul class="actions">
+                           <!--<li><a href="#" class="button">Elevate my awareness</a></li> -->
+                        </ul>
+                     </section>
+                     <section class="col-6 col-12-narrower feature">
+                        <header>
+                           <!--<h2>Amet lorem ipsum dolor<br />
+                           sit consequat magna</h2>-->
+                        </header>
+                        <ul class="actions">
+                           <!--<li><a href="#" class="button">Elevate my awareness</a></li> -->
+                        </ul>
+                     </section>
+                  </div>
+               </div>
+            </div>
+
+         <!-- Features 2 -->
+            <!-- <div class="wrapper">
+               <section class="container">
+                  <header class="major">
+                     <h2>Sed magna consequat lorem curabitur tempus</h2>
+                     <p>Elit aliquam vulputate egestas euismod nunc semper vehicula lorem blandit</p>
+                  </header>
+                  <!-{main_text_cgv} -->
+
+
+         <!-- Footer -->
+            <!-- <div id="footer-wrapper">
+               <div id="footer" class="container">
+                  <header class="major">
+                     <h2>Euismod aliquam vehicula lorem</h2>
+                     <p>Lorem ipsum dolor sit amet consectetur et sed adipiscing elit. Curabitur vel sem sit<br />
+                     dolor neque semper magna lorem ipsum feugiat veroeros lorem ipsum dolore.</p>
+                  </header>
+                  <div class="row">
+                     <section class="col-6 col-12-narrower">
+                        <form method="post" action="#">
+                           <div class="row gtr-50">
+                              <div class="col-6 col-12-mobile">
+                                 <input name="name" placeholder="Name" type="text" />
+                              </div>
+                              <div class="col-6 col-12-mobile">
+                                 <input name="email" placeholder="Email" type="text" />
+                              </div>
+                              <div class="col-12">
+                                 <textarea name="message" placeholder="Message"></textarea>
+                              </div>
+                              <div class="col-12">
+                                 <ul class="actions">
+                                    <li><input type="submit" value="Send Message" /></li>
+                                    <li><input type="reset" value="Clear form" /></li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </form>
+                     </section>
+                     <section class="col-6 col-12-narrower">
+                        <div class="row gtr-0">
+                           <ul class="divided icons col-6 col-12-mobile">
+                              <li class="icon brands fa-twitter"><a href="#"><span class="extra">twitter.com/</span>untitled</a></li>
+                              <li class="icon brands fa-facebook-f"><a href="#"><span class="extra">facebook.com/</span>untitled</a></li>
+                              <li class="icon brands fa-dribbble"><a href="#"><span class="extra">dribbble.com/</span>untitled</a></li>
+                           </ul>
+                           <ul class="divided icons col-6 col-12-mobile">
+                              <li class="icon brands fa-instagram"><a href="#"><span class="extra">instagram.com/</span>untitled</a></li>
+                              <li class="icon brands fa-youtube"><a href="#"><span class="extra">youtube.com/</span>untitled</a></li>
+                              <li class="icon brands fa-pinterest"><a href="#"><span class="extra">pinterest.com/</span>untitled</a></li>
+                           </ul>
+                        </div>
+                     </section>
+                  </div>
+               </div>
+               <div id="copyright" class="container">
+                  <ul class="menu">
+                     <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                  </ul>
+               </div>
+            </div> -->
+      </div>
+      {% endblock contents %}
+
+        <!-- Scripts -->
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/jquery.dropotron.min.js"></script>
+        <script src="/static/js/browser.min.js"></script>
+        <script src="/static/js/breakpoints.min.js"></script>
+        <script src="/static/js/util.js"></script>
+        <script src="/static/js/main.js"></script>
+        <!-- MDB -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"></script>
+
+        <!-- $('#basicExampleModal').modal('show'); -->
+   </body>
+</html>
