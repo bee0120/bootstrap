@@ -1,121 +1,119 @@
 {% extends "base2.html" %}
 
-{% block message %}
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        <p>{{ messages[0][1] }}</p>
-    {% endif %}
-{% endwith %}
-{% endblock message %}
-{% block admin %}
-{% if user == "admin" %}
-   <li class="break"><a href="/manager" id="btnSignin">
-   <i class="fas fa-sign-in-alt"></i>Manage</a></li>
-{% else %}
-   <li class="break"><a href="" id="btnSignin"></a></li>
-{% endif %}
-{% endblock admin %}
-        {% block user2 %}
-            {% if user=="Login" %}
-            <a href="{{url_for('login')}}" data-mdb-modal-init data-mdb-target="#basicExampleModal">Login</a>
-            {% else %}
-            <!-- <p>user: {{user}}</p> -->
-            <a href="{{url_for('logout')}}" >Logout</a>
+    {% block message %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <p>{{ messages[0][1] }}</p>
             {% endif %}
-         {% endblock user2 %}
+        {% endwith %}
+    {% endblock message %}
+    {% block admin %}
+        {% if user == "admin" %}
+            <li class="break"><a href="/manager" id="btnSignin">
+            <i class="fas fa-sign-in-alt"></i>Manage</a></li>
+        {% else %}
+            <li class="break"><a href="" id="btnSignin"></a></li>
+        {% endif %}
+    {% endblock admin %}
+    {% block user2 %}
+        {% if user=="Login" %}
+            <a href="{{url_for('login')}}" data-mdb-modal-init data-mdb-target="#basicExampleModal">Login</a>
+        {% else %}
+        <!-- <p>user: {{user}}</p> -->
+            <a href="{{url_for('logout')}}" >Logout</a>
+        {% endif %}
+    {% endblock user2 %}
 
     {% block contents %}
     {% if movie_info_list %}
-    <div class="container">
-        <div class="mx-auto" style="max-width: 400px;">
-
-        <form action="{{ url_for("update_movie") }}" method="post" onsubmit="return validateListForm()">
-            <input type="hidden" name="index" value="{{ movie_info_list[0].index }}">
-            <p>영화이름:</p>
-            <input type="text" name="title" id="title" value="{{ movie_info_list[0].title }}">
-            <p>개봉일:</p>
-            <input type="text" name="info" id="info" value="{{ movie_info_list[0].info }}">
-            <p>실관람지수(평점):</p>
-            <input type="text" name="egg_gage" id="egg_gage" value="{{ movie_info_list[0].egg_gage }}">
-            <p>장르:</p>
-            <input type="text" name="genre" id="genre" value="{{ movie_info_list[0].genre }}">
-            <p></p>
-            <button type="submit" name="action" value="update" id="modifyButton"  class="btn btn-primary btn-lg"  disabled>수정하기</button>
-            <a href="{{ url_for('manager',title = movie_info_list[0].title) }}"  class="btn btn-primary btn-lg" >삭제하기</a>
-        </form>
+        <div class="container">
+            <div class="mx-auto" style="max-width: 400px;">
+            <form action="{{ url_for("update_movie") }}" method="post" onsubmit="return validateListForm()">
+                <input type="hidden" name="index" value="{{ movie_info_list[0].index }}">
+                <p>영화이름:</p>
+                <input type="text" name="title" id="title" value="{{ movie_info_list[0].title }}">
+                <p>개봉일:</p>
+                <input type="text" name="info" id="info" value="{{ movie_info_list[0].info }}">
+                <p>실관람지수(평점):</p>
+                <input type="text" name="egg_gage" id="egg_gage" value="{{ movie_info_list[0].egg_gage }}">
+                <p>장르:</p>
+                <input type="text" name="genre" id="genre" value="{{ movie_info_list[0].genre }}">
+                <p></p>
+                <button type="submit" name="action" value="update" id="modifyButton"  class="btn btn-primary btn-lg"  disabled>수정하기</button>
+                <a href="{{ url_for('manager',title = movie_info_list[0].title) }}"  class="btn btn-primary btn-lg" >삭제하기</a>
+            </form>
+            </div>
         </div>
-        </div>
-
     {% endif %}
-    <script>
-        function validateListForm() {
-            var titleInput = document.getElementById('title');
-            var infoInput = document.getElementById('info');
-            var egggageInput = document.getElementById('egg_gage');
-            var genreInput = document.getElementById('genre');
-
-            // 입력 필드가 모두 비어있으면 제출되지 않도록 함
-            if (titleInput.value.trim() === '' || infoInput.value.trim() === '' || egggageInput.value.trim() === '' || genreInput.value.trim() === '') {
-                alert('모든 필드를 입력하세요.');
-                return false;
-            }
-
-            return true;
-        }
-
-        // 입력 필드가 변경될 때마다 버튼 상태 업데이트
-        document.getElementById('title').addEventListener('input', updateButtonState);
-        document.getElementById('info').addEventListener('input', updateButtonState);
-        document.getElementById('egg_gage').addEventListener('input', updateButtonState);
-        document.getElementById('genre').addEventListener('input', updateButtonState);
-
-        function updateButtonState() {
-            var titleInput = document.getElementById('title');
-            var infoInput = document.getElementById('info');
-            var egggageInput = document.getElementById('egg_gage');
-            var genreInput = document.getElementById('genre');
-            var modifyButton = document.getElementById('modifyButton');
-            var deleteButton = document.getElementById('deleteButton');
-
-            // 입력 필드가 모두 비어있지 않으면 버튼 활성화
-            if (titleInput.value.trim() !== '' && infoInput.value.trim() !== '' && egggageInput.value.trim() !== '' && genreInput.value.trim() !== '') {
-                modifyButton.removeAttribute('disabled');
-                deleteButton.removeAttribute('disabled');
-            } else {
-                modifyButton.setAttribute('disabled', 'disabled');
-                deleteButton.setAttribute('disabled', 'disabled');
-            }
-        }
-    </script>
-{% endblock contents %}
-<body>
-    <table>
-        <thead>
-            <tr>
-                <th>Movie Rank</th>
-                <th>Movie title</th>
-                <th>Release Date</th>
-                <th>Egg Gage</th>
-                <th>Genre</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            {% if movie_info_list %}
-                <tr onclick="redirectToMovieDetail({{ movie_info_list[0].index }})" style="cursor: pointer">
-                    <td>{{ movie_info_list[0].movie_rank }}위</td>
-                    <td>{{ movie_info_list[0].title }}</td>
-                    <td><b>Release Date: {{ movie_info_list[0].info }}</b></td>
-                    <td><b>Egg Gage: {{ movie_info_list[0].egg_gage }}</b></td>
-                    <td>{{ movie_info_list[0].genre }}</td>
-                </tr>
-            {% endif %}
-        </tbody>
         <script>
-            function redirectToMovieDetail(index) {
-                console.log("Redirecting to index:", index);
-                window.location.href = "/manage_list/" + index;
+            function validateListForm() {
+                var titleInput = document.getElementById('title');
+                var infoInput = document.getElementById('info');
+                var egggageInput = document.getElementById('egg_gage');
+                var genreInput = document.getElementById('genre');
+
+                // 입력 필드가 모두 비어있으면 제출되지 않도록 함
+                if (titleInput.value.trim() === '' || infoInput.value.trim() === '' || egggageInput.value.trim() === '' || genreInput.value.trim() === '') {
+                    alert('모든 필드를 입력하세요.');
+                    return false;
+                }
+
+                return true;
+            }
+
+            // 입력 필드가 변경될 때마다 버튼 상태 업데이트
+            document.getElementById('title').addEventListener('input', updateButtonState);
+            document.getElementById('info').addEventListener('input', updateButtonState);
+            document.getElementById('egg_gage').addEventListener('input', updateButtonState);
+            document.getElementById('genre').addEventListener('input', updateButtonState);
+
+            function updateButtonState() {
+                var titleInput = document.getElementById('title');
+                var infoInput = document.getElementById('info');
+                var egggageInput = document.getElementById('egg_gage');
+                var genreInput = document.getElementById('genre');
+                var modifyButton = document.getElementById('modifyButton');
+                var deleteButton = document.getElementById('deleteButton');
+
+                // 입력 필드가 모두 비어있지 않으면 버튼 활성화
+                if (titleInput.value.trim() !== '' && infoInput.value.trim() !== '' && egggageInput.value.trim() !== '' && genreInput.value.trim() !== '') {
+                    modifyButton.removeAttribute('disabled');
+                    deleteButton.removeAttribute('disabled');
+                } else {
+                    modifyButton.setAttribute('disabled', 'disabled');
+                    deleteButton.setAttribute('disabled', 'disabled');
+                }
             }
         </script>
-    </table>
-</body>
+    {% endblock contents %}
+    <body>
+        <table>
+            <thead>
+                <tr>
+                    <th>Movie Rank</th>
+                    <th>Movie title</th>
+                    <th>Release Date</th>
+                    <th>Egg Gage</th>
+                    <th>Genre</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% if movie_info_list %}
+                    <tr onclick="redirectToMovieDetail({{ movie_info_list[0].index }})" style="cursor: pointer">
+                        <td>{{ movie_info_list[0].movie_rank }}위</td>
+                        <td>{{ movie_info_list[0].title }}</td>
+                        <td><b>Release Date: {{ movie_info_list[0].info }}</b></td>
+                        <td><b>Egg Gage: {{ movie_info_list[0].egg_gage }}</b></td>
+                        <td>{{ movie_info_list[0].genre }}</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+            <script>
+                function redirectToMovieDetail(index) {
+                    console.log("Redirecting to index:", index);
+                    window.location.href = "/manage_list/" + index;
+                }
+            </script>
+        </table>
+    </body>

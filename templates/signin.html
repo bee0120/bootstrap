@@ -1,31 +1,30 @@
 {% extends "base2.html" %}
 
-{% block message %}
+<!-- {% block message %}
 {% with messages = get_flashed_messages(with_categories=true) %}
-
 {% if messages %}
     <p>{{messages[0][1]}}</p>
 {% endif %}
 {% endwith %}
-{% endblock message %}
+{% endblock message %} -->
 
 
 {% block contents %}
 <div class="container">
     <div class="mx-auto" style="max-width: 400px;">
-<form action="{{url_for("signin_done")}}" method="get">
-    <p>userid:
-    <input type="text" name="id" id="id"></p>
-    <p>password:
-    <input type="password" name="pwd" id="pwd"/></p>
-    <p>name:
-    <input type="text" name="name" id="name"></p>
-    <p>movietype:
-    <input type="text" name="mtype" id="mtype"></p>
-    <p></p>
-    <button type="submit" id="signupButton">회원가입하기</button>
-</form>
-</div>
+        <form action="{{url_for("signin_done")}}" method="get">
+            <p>userid:
+            <input type="text" name="id" id="id"></p>
+            <p>password:
+            <input type="password" name="pwd" id="pwd"/></p>
+            <p>name:
+            <input type="text" name="name" id="name"></p>
+            <p>movietype:
+            <input type="text" name="mtype" id="mtype"></p>
+            <p></p>
+            <button type="submit" id="signupButton">회원가입하기</button>
+        </form>
+    </div>
 </div>
 <script>
     document.getElementById('signupButton').addEventListener('click', function (event) {

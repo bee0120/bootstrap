@@ -1,18 +1,19 @@
 {% extends "base2.html" %}
-
-{% block user %}
+<!-- Jinja2 템플릿 엔진 템플릿 상속을 사용하는 경우 해당 블록이 자식 템플릿에서 오버라이드될 수 있도록 사용 -->
+<!-- 사용자 상태에 따른 로그인 문구 표시: 사용자가 로그인되어 있으면 사용자 이름과 로그아웃 링크를 표시 -->
+<!-- {% block user %}
     {% if user=="Login" %}
         <a href="{{url_for('login')}}">Login</a>
     {% else %}
         <p>user: {{user}}</p>
         <a href="{{url_for('logout')}}">Logout</a>
     {% endif %}
-{% endblock user %}
+{% endblock user %} -->
 
 {% block message %}
 {% with messages = get_flashed_messages(with_categories=true) %}
-
 {% if messages %}
+<!-- messages는 (카테고리, 메시지 내용) 쌍의 리스트이며, 여기서 [0][1]은 첫 번째 메시지의 내용 -->
     <p>{{messages[0][1]}}</p>
 {% endif %}
 {% endwith %}
@@ -40,6 +41,7 @@
                             {# 홀수 번호인 경우 #}
                             <div class='image-wrapper'><a href='{{ movie.link }}' target='_blank' class='image featured'><img src='{{ movie.img_url }}' alt='' /></a></div>
                             <p>
+                                <input type="hidden" name="uid" value="{{ movie.uid }}">
                                 <h3>{{ movie.movie_rank }}위: {{ movie.title }}</h3>
                                 <b>개봉일: {{ movie.info }}</b><br>
                                 <b>실관람지수(평점): {{ movie.egg_gage }}</b><br>
@@ -62,6 +64,7 @@
                             {# 짝수 번호인 경우 #}
                             <div class='image-wrapper'><a href='{{ movie.link }}' target='_blank' class='image featured'><img src='{{ movie.img_url }}' alt='' /></a></div>
                             <p>
+                                <input type="hidden" name="uid" value="{{ movie.uid }}">
                                 <h3>{{ movie.movie_rank }}위: {{ movie.title }}</h3>
                                 <b>개봉일: {{ movie.info }}</b><br>
                                 <b>실관람지수(평점): {{ movie.egg_gage }}</b><br>
@@ -80,7 +83,7 @@
     </div>
 
     <script>
-        // Flask에서 서버에서 전달한 메시지를 전역 변수로 설정
+        // JavaScript 코드 Flask에서 서버에서 전달한 메시지를 전역 변수로 설정
         var alertMessage = "{{ alert_message }}";
 
         // alertMessage가 비어있지 않으면 alert 메시지를 띄우기

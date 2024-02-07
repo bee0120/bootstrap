@@ -1,4 +1,4 @@
-{% extends "base2.html" %}
+<!-- {% extends "base2.html" %}
 
 {% block user %}
     {% if user == "Login" %}
@@ -35,7 +35,7 @@
                     </header>
                     {% for movie in movies_from_users %}
                         {% if loop.index % 2 == 1 %}
-                            {# 홀수 번호인 경우 #}
+
                             <div class='image-wrapper'><a href='{{ movie.link }}' target='_blank' class='image featured'><img src='{{ movie.img_url }}' alt='' /></a></div>
                             <p>
                                 <h3>{{ movie.movie_rank }}위: {{ movie.title }}</h3>
@@ -47,7 +47,7 @@
                     {% endfor %}
 
                     <ul class="actions">
-                        <!-- <li><a href="#" class="button">Elevate my awareness</a></li> -->
+
                     </ul>
                 </section>
 
@@ -57,7 +57,6 @@
                     </header>
                     {% for movie in movies_from_users %}
                         {% if loop.index % 2 == 0 %}
-                            {# 짝수 번호인 경우 #}
                             <div class='image-wrapper'><a href='{{ movie.link }}' target='_blank' class='image featured'><img src='{{ movie.img_url }}' alt='' /></a></div>
                             <p>
                                 <h3>{{ movie.movie_rank }}위: {{ movie.title }}</h3>
@@ -69,22 +68,19 @@
                     {% endfor %}
 
                     <ul class="actions">
-                        <!-- <li><a href="#" class="button">Elevate my awareness</a></li> -->
+
                     </ul>
                 </section>
-                <!-- Add similar block for the second column -->
+             ->
             </div>
         </div>
     </div>
 
     <script>
-        // Flask에서 서버에서 전달한 메시지를 전역 변수로 설정
         var alertMessage = "{{ alert_message }}";
-
-        // alertMessage가 비어있지 않으면 alert 메시지를 띄우기
         if (alertMessage) {
             alert(alertMessage);
         }
     </script>
 
-{% endblock contents %}
+{% endblock contents %} -->
